@@ -12,12 +12,12 @@
 		<movie minorVersion="0" />
 		<movie platform="JavaScript" />
 		<movie background="#ffffff" />
-		<movie preferredSDK="../../Kha/Tools/haxe" />
+		<movie preferredSDK="../../../Kha/Tools/haxe" />
 	</output>
 	<!-- Other classes to be compiled into your SWF -->
 	<classpaths>
-		<class path="../../Kha/Sources" />
-		<class path="../../Kha/Backends/HTML5" />
+		<class path="../../../Kha/Sources" />
+		<class path="../../../Kha/Backends/HTML5" />
 		<class path="../Sources" />
 		<class path="../khawy/Libraries/hxGeomAlgo/Sources" />
 		<class path="../khawy/Libraries/Format/Sources" />
@@ -32,7 +32,7 @@
 		<option noInlineOnDebug="False" />
 		<option mainClass="Main" />
 		<option enabledebug="False" />
-		<option additional="-D hxcpp_smart_strings&#xA;-D DEBUGDRAW&#xA;-D debugInfo&#xA;-D hxcpp_smart_strings&#xA;-D hxGeomAlgo&#xA;-D Format&#xA;-D sys_g1&#xA;-D sys_g2&#xA;-D sys_g3&#xA;-D sys_a1&#xA;-D sys_a2&#xA;-D kha_js&#xA;-D kha_g1&#xA;-D kha_g2&#xA;-D kha_g3&#xA;-D kha_a1&#xA;-D kha_a2&#xA;-D canvas_id=khanvas&#xA;-D script_name=kha&#xA;-D sys_g4&#xA;-D kha_g4&#xA;-D kha_webgl&#xA;-D sys_debug-html5&#xA;-D kha_debug-html5&#xA;-D kha_debug-html5_js&#xA;-D sys_html5&#xA;-D kha_html5&#xA;-D kha_html5_js&#xA;-D sys_debug_html5&#xA;-D kha_debug_html5&#xA;-D kha_html5&#xA;-D kha&#xA;-D kha_version=1810&#xA;-D kha_project_name=Obligatorio1&#xA;-D kha_output=&quot;/home/fry/ORT/PdV/obligatorio1/build/debug-html5/kha.js&quot;&#xA;-debug&#xA;" />
+		<option additional="-D hxcpp_smart_strings&#xA;-D DEBUGDRAW&#xA;-D debugInfo&#xA;-D hxcpp_smart_strings&#xA;-D hxGeomAlgo&#xA;-D Format&#xA;-D sys_g1&#xA;-D sys_g2&#xA;-D sys_g3&#xA;-D sys_a1&#xA;-D sys_a2&#xA;-D kha_js&#xA;-D kha_g1&#xA;-D kha_g2&#xA;-D kha_g3&#xA;-D kha_a1&#xA;-D kha_a2&#xA;-D canvas_id=khanvas&#xA;-D script_name=kha&#xA;-D sys_g4&#xA;-D kha_g4&#xA;-D kha_webgl&#xA;-D sys_debug-html5&#xA;-D kha_debug-html5&#xA;-D kha_debug-html5_js&#xA;-D sys_html5&#xA;-D kha_html5&#xA;-D kha_html5_js&#xA;-D sys_debug_html5&#xA;-D kha_debug_html5&#xA;-D kha_html5&#xA;-D kha&#xA;-D kha_version=1810&#xA;-D kha_project_name=Obligatorio1&#xA;-D kha_output=&quot;/home/fry/ORT/PdV/ball-shooter/obligatorio1/build/debug-html5/kha.js&quot;&#xA;-debug&#xA;" />
 	</build>
 	<!-- haxelib libraries -->
 	<haxelib>

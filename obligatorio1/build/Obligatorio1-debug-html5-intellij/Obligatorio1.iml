@@ -17,17 +17,17 @@
     <content url="file://$MODULE_DIR$/../..">
       <sourceFolder url="file:///home/fry/ORT/PdV/Kha/Sources" isTestSource="false" />
       <sourceFolder url="file:///home/fry/ORT/PdV/Kha/Backends/HTML5" isTestSource="false" />
-      <sourceFolder url="file:///home/fry/ORT/PdV/obligatorio1/Sources" isTestSource="false" />
-      <sourceFolder url="file:///home/fry/ORT/PdV/obligatorio1/khawy/Libraries/hxGeomAlgo/Sources" isTestSource="false" />
-      <sourceFolder url="file:///home/fry/ORT/PdV/obligatorio1/khawy/Libraries/Format/Sources" isTestSource="false" />
-      <sourceFolder url="file:///home/fry/ORT/PdV/obligatorio1/khawy/Sources" isTestSource="false" />
+      <sourceFolder url="file:///home/fry/ORT/PdV/ball-shooter/obligatorio1/Sources" isTestSource="false" />
+      <sourceFolder url="file:///home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Libraries/hxGeomAlgo/Sources" isTestSource="false" />
+      <sourceFolder url="file:///home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Libraries/Format/Sources" isTestSource="false" />
+      <sourceFolder url="file:///home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Sources" isTestSource="false" />
 
     </content>
     <content url="file://Libraries/hxGeomAlgo">
-      <sourceFolder url="file:///home/fry/ORT/PdV/obligatorio1/khawy/Libraries/hxGeomAlgo" isTestSource="false" />
+      <sourceFolder url="file:///home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Libraries/hxGeomAlgo" isTestSource="false" />
     </content>
     <content url="file://Libraries/Format">
-      <sourceFolder url="file:///home/fry/ORT/PdV/obligatorio1/khawy/Libraries/Format" isTestSource="false" />
+      <sourceFolder url="file:///home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Libraries/Format" isTestSource="false" />
     </content>
     
     <orderEntry type="jdk" jdkName="Haxe 3.2.0" jdkType="Haxe toolkit" />

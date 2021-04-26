@@ -1,11 +1,11 @@
 -cp /home/fry/ORT/PdV/Kha/Sources
 -cp /home/fry/ORT/PdV/Kha/Backends/HTML5
--cp /home/fry/ORT/PdV/obligatorio1/Sources
--cp /home/fry/ORT/PdV/obligatorio1/khawy/Libraries/hxGeomAlgo/Sources
--cp /home/fry/ORT/PdV/obligatorio1/khawy/Libraries/Format/Sources
--cp /home/fry/ORT/PdV/obligatorio1/khawy/Sources
--cp /home/fry/ORT/PdV/obligatorio1/khawy/Libraries/hxGeomAlgo
--cp /home/fry/ORT/PdV/obligatorio1/khawy/Libraries/Format
+-cp /home/fry/ORT/PdV/ball-shooter/obligatorio1/Sources
+-cp /home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Libraries/hxGeomAlgo/Sources
+-cp /home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Libraries/Format/Sources
+-cp /home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Sources
+-cp /home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Libraries/hxGeomAlgo
+-cp /home/fry/ORT/PdV/ball-shooter/obligatorio1/khawy/Libraries/Format
 -D hxcpp_smart_strings
 -D DEBUGDRAW
 -D debugInfo
