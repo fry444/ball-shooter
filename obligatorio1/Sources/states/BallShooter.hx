@@ -1,5 +1,10 @@
 package states;
 
+import com.gEngine.display.Text;
+import com.loading.basicResources.FontLoader;
+import com.loading.basicResources.JoinAtlas;
+import com.framework.utils.Random;
+import kha.Canvas;
 import js.html.Console;
 import gameObjects.Bullet;
 import com.collision.platformer.ICollider;
@@ -22,54 +27,68 @@ class BallShooter extends State{
     var ballsCollision:CollisionGroup = new CollisionGroup();
     var cannonInitialX=(Screen.getWidth()/2)-20;
     var cannonInitialY=Screen.getHeight()-20;
+    var cannonHealth:Float = 10;
 
     override function load(resources:Resources) {
+        var atlas = new JoinAtlas(512,512);
+        atlas.add(new FontLoader("Kenney_Thick",20));
         resources.add(new ImageLoader("ball"));
+        resources.add(atlas);
     }
 
     override function init() {
+        var text = new Text("Kenney_Thick");
+        text.x=50;
+        text.y=50;
+        text.text="HEALTH ";
+        stage.addChild(text);
         simulationLayer = new Layer();
         stage.addChild(simulationLayer);
-
         GlobalGameData.simulationLayer = simulationLayer;
-
         cannon = new Cannon(cannonInitialX, cannonInitialY);
         addChild(cannon);
-        GlobalGameData.cannon=cannon;
-        
+        GlobalGameData.cannon=cannon;        
         super.init();
     }
 
     override function update(dt:Float) {
-
         if(Input.i.isKeyCodePressed(KeyCode.B)){
-            addBall(100,100,3);
+            var randomX = Math.round(Random.getRandomIn(20,1260));
+            addBall(randomX,100,3,1);
         }
-
         CollisionEngine.overlap(cannon.collision, ballsCollision, cannonVsBall);
         CollisionEngine.overlap(cannon.bulletsCollision, ballsCollision, bulletVsBall);
-
         super.update(dt);
     }
 
-    function addBall(x:Float, y:Float, ballType:Int){
-        var ball = new Ball(x,y,ballType,ballsCollision);
+    function addBall(x:Float, y:Float, ballType:Int, ballDirection:Float){
+        var ball = new Ball(x,y,ballType,ballDirection,ballsCollision);
         addChild(ball);
     }
 
     function cannonVsBall(cannonCollision:ICollider, ballCollision:ICollider){
-        changeState(new EndGame(false));
+        cannonHealth--;
+        if(cannonHealth<=0){
+            changeState(new EndGame(false));
+        }        
     }
 
     function bulletVsBall(bulletCollision: ICollider, ballCollision:ICollider){
         var ball:Ball = cast ballCollision.userData;
         var newBallType = ball.getType() -1;   
-        Console.log(newBallType);
         if(newBallType>0){
-            addBall(100,100,newBallType);
+            addBall(ball.getX(),ball.getY(),newBallType, -1);
+            addBall(ball.getX(),ball.getY(),newBallType, 1);
         }     
         ball.die();        
         var bullet:Bullet = cast bulletCollision.userData;
 		bullet.die();
     }
+
+    #if DEBUGDRAW
+	override function draw(framebuffer:Canvas) {
+		super.draw(framebuffer);
+		CollisionEngine.renderDebug(framebuffer,stage.defaultCamera());
+	}
+	#end
 }

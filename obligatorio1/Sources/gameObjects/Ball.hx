@@ -1,5 +1,6 @@
 package gameObjects;
 
+import js.html.Console;
 import com.collision.platformer.CollisionGroup;
 import kha.math.FastVector2;
 import com.gEngine.helpers.Screen;
@@ -20,9 +21,10 @@ class Ball extends Entity{
     var ballType:Int;
     var sizeMultiplier:Float;
     
-    public function new(x:Float, y:Float, type:Int, collisionGroup:CollisionGroup) {
+    public function new(x:Float, y:Float, type:Int, direction:Float, collisionGroup:CollisionGroup) {
         super();        
         velocity = new FastVector2(500,500);
+        velocity.x*=direction;
         ballSprite=new Sprite("ball");
         ballSprite.x=x;
         ballSprite.y=y;
@@ -31,16 +33,12 @@ class Ball extends Entity{
         ballRadio = Std.int(ballSprite.width()*sizeMultiplier);
         ballSprite.scaleX = sizeMultiplier;
         ballSprite.scaleY = sizeMultiplier;
-        ballSprite.offsetX = -ballSprite.width() * sizeMultiplier;
-        ballSprite.offsetY = -ballSprite.height() * sizeMultiplier;
 		GlobalGameData.simulationLayer.addChild(ballSprite);
-
 		collision = new CollisionBox();
 		collision.width = ballRadio;
 		collision.height = ballRadio;
 		collision.x = x;
 		collision.y = y;
-
         collision.staticObject=true;
         collisionGroup.add(collision);
 		collision.userData=this;
@@ -48,21 +46,16 @@ class Ball extends Entity{
     }
 
     override function update(dt:Float) {
-
         velocity.y += gravity*dt;
-
         collision.x += velocity.x*dt;
         collision.y += velocity.y*dt;
-
         if(collision.y+ballRadio>=screenHeight && velocity.y>0 ){
             velocity.y*=-1;
             collision.y=screenHeight-ballRadio+(screenHeight-(collision.y+ballRadio));
         }
-
         if(collision.x-ballRadio<0 ||collision.x+ballRadio>screenWidth){
             velocity.x*=-1;
         }
-
         super.update(dt);
     }
 
@@ -80,6 +73,14 @@ class Ball extends Entity{
 
     public function getType(){
         return ballType;
+    }
+
+    public function getX(){
+        return collision.x;
+    }
+
+    public function getY(){
+        return collision.y;
     }
     
 }

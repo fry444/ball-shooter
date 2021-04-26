@@ -16,12 +16,10 @@ class Cannon extends Entity{
     public var collision: CollisionBox;
     public var bulletsCollision: CollisionGroup;
 	var facingDir:FastVector2=new FastVector2(0,-1);
-
     var speed:Float = 300;
 
-    public function new(x:Float, y:Float) {
-        super();
-
+    public function new(x:Float, y:Float) {        
+		super();
         display = new RectangleDisplay();
 		display.setColor(0, 0, 255);
 		display.scaleX = 20;
@@ -29,7 +27,6 @@ class Cannon extends Entity{
 		display.x = x;
 		display.y = y;
 		GlobalGameData.simulationLayer.addChild(display);
-
 		collision = new CollisionBox();
 		collision.width = 20;
 		collision.height = 20;
@@ -37,24 +34,20 @@ class Cannon extends Entity{
 		collision.y = y;
         collision.dragX = 0.9;
         collision.dragY = 0.9;
-
 		bulletsCollision=new CollisionGroup();
     }
 
     override function update(dt:Float) {
 		updatePlayerMovement();
-
 		if(Input.i.isKeyCodeDown(KeyCode.Space)){
 			shoot();
 		}
-
         collision.update(dt);
         super.update(dt);
     }
 
     function updatePlayerMovement(){
 		var dir:FastVector2= new FastVector2();
-
 		if (Input.i.isKeyCodeDown(KeyCode.Left)) {
 			dir.x += -1;
 		}
@@ -84,4 +77,5 @@ class Cannon extends Entity{
         super.destroy();
         display.removeFromParent();
     }
+
 }
