@@ -1,0 +1,20 @@
+#version 300 es
+
+uniform mat4 projectionMatrix;
+
+in vec3 vertexPosition;
+out vec2 texCoord;
+in vec2 texPosition;
+out vec4 _colorMul;
+in vec4 colorMul;
+out vec4 _colorAdd;
+in vec4 colorAdd;
+
+void main()
+{
+    gl_Position = projectionMatrix * vec4(vertexPosition, 1.0);
+    texCoord = texPosition;
+    _colorMul = colorMul;
+    _colorAdd = colorAdd;
+}
+

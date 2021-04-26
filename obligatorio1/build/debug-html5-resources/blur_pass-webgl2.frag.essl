@@ -1,0 +1,26 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp vec2 dirInv;
+
+out highp vec4 fragColor;
+in highp vec2 texCoord;
+
+void main()
+{
+    fragColor = texture(tex, texCoord + (dirInv * 5.5));
+    fragColor += texture(tex, texCoord + (dirInv * 4.5));
+    fragColor += texture(tex, texCoord + (dirInv * 3.5));
+    fragColor += texture(tex, texCoord + (dirInv * 2.5));
+    fragColor += texture(tex, texCoord + (dirInv * 1.5));
+    fragColor += texture(tex, texCoord);
+    fragColor += texture(tex, texCoord - (dirInv * 1.5));
+    fragColor += texture(tex, texCoord - (dirInv * 2.5));
+    fragColor += texture(tex, texCoord - (dirInv * 3.5));
+    fragColor += texture(tex, texCoord - (dirInv * 4.5));
+    fragColor += texture(tex, texCoord - (dirInv * 5.5));
+    fragColor /= vec4(11.0);
+}
+

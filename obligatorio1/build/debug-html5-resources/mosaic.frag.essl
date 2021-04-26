@@ -1,0 +1,16 @@
+#version 100
+precision mediump float;
+precision highp int;
+
+uniform highp float tiles;
+uniform highp sampler2D tex;
+
+varying highp vec2 texCoord;
+
+void main()
+{
+    highp vec2 uv = texCoord;
+    uv = floor(uv * tiles) / vec2(tiles);
+    gl_FragData[0] = texture2D(tex, uv);
+}
+

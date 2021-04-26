@@ -1,0 +1,15 @@
+#version 100
+
+uniform mat4 mvp;
+
+varying vec2 texCoord;
+attribute vec2 uv;
+attribute vec3 pos;
+attribute vec3 normal;
+
+void main()
+{
+    texCoord = uv;
+    gl_Position = mvp * vec4(pos, 1.0);
+}
+

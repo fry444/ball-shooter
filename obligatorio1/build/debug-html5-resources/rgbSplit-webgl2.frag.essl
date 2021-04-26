@@ -1,0 +1,24 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp float time;
+
+in highp vec2 texCoord;
+out highp vec4 FragColor;
+
+void main()
+{
+    highp vec2 value = vec2(0.0);
+    highp vec4 c1 = texture(tex, texCoord - value);
+    highp vec4 c2 = texture(tex, texCoord);
+    highp vec4 c3 = texture(tex, texCoord + value);
+    highp vec4 col = vec4(c1.x, c2.y, c3.z, (c1.w + c2.w) + c3.z);
+    highp float scanLines = cos(time + (texCoord.y * 300.5));
+    highp float saturation = scanLines * scanLines;
+    highp vec3 _82 = col.xyz * vec3(1.0 + (0.20000000298023223876953125 * saturation));
+    col = vec4(_82.x, _82.y, _82.z, col.w);
+    FragColor = col;
+}
+

@@ -1,0 +1,32 @@
+#version 300 es
+
+uniform mat4 bones[23];
+uniform mat4 projection;
+uniform mat4 view;
+uniform mat4 model;
+
+in vec4 boneIndex;
+in vec3 pos;
+in vec4 weights;
+in vec3 normal;
+out vec2 texCoord;
+in vec2 uv;
+
+void main()
+{
+    int index = int(boneIndex.x);
+    vec4 newVertex = (bones[index] * vec4(pos, 1.0)) * weights.x;
+    vec4 newNormal = (bones[index] * vec4(normal, 0.0)) * weights.x;
+    index = int(boneIndex.y);
+    newVertex = ((bones[index] * vec4(pos, 1.0)) * weights.y) + newVertex;
+    newNormal = ((bones[index] * vec4(normal, 0.0)) * weights.y) + newNormal;
+    index = int(boneIndex.z);
+    newVertex = ((bones[index] * vec4(pos, 1.0)) * weights.z) + newVertex;
+    newNormal = ((bones[index] * vec4(normal, 0.0)) * weights.z) + newNormal;
+    index = int(boneIndex.w);
+    newVertex = ((bones[index] * vec4(pos, 1.0)) * weights.w) + newVertex;
+    newNormal = ((bones[index] * vec4(normal, 0.0)) * weights.w) + newNormal;
+    texCoord = uv;
+    gl_Position = ((projection * view) * model) * vec4(newVertex.xyz, 1.0);
+}
+

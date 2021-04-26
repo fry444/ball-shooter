@@ -1,0 +1,18 @@
+#version 100
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp sampler2D tex2;
+
+varying highp vec2 texCoord;
+
+void main()
+{
+    highp vec4 light = texture2D(tex, texCoord);
+    highp vec4 texcolor = texture2D(tex2, texCoord);
+    highp vec3 _30 = texcolor.xyz * light.xyz;
+    texcolor = vec4(_30.x, _30.y, _30.z, texcolor.w);
+    gl_FragData[0] = texcolor;
+}
+

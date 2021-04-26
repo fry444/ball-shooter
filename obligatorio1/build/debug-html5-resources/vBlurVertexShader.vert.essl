@@ -1,0 +1,26 @@
+#version 100
+
+uniform mat4 projectionMatrix;
+
+attribute vec3 vertexPosition;
+varying vec2 v_texCoord;
+attribute vec2 texPosition;
+varying vec2 v_blurCoord0;
+varying vec2 v_blurCoord1;
+varying vec2 v_blurCoord2;
+varying vec2 v_blurCoord3;
+varying vec2 v_blurCoord4;
+varying vec2 v_blurCoord5;
+
+void main()
+{
+    gl_Position = projectionMatrix * vec4(vertexPosition, 1.0);
+    v_texCoord = texPosition;
+    v_blurCoord0 = texPosition + vec2(-0.00018000000272877514362335205078125, 0.0);
+    v_blurCoord1 = texPosition + vec2(-0.000899999984540045261383056640625, 0.0);
+    v_blurCoord2 = texPosition + vec2(-0.0035000001080334186553955078125, 0.0);
+    v_blurCoord3 = texPosition + vec2(0.0035000001080334186553955078125, 0.0);
+    v_blurCoord4 = texPosition + vec2(0.000899999984540045261383056640625, 0.0);
+    v_blurCoord5 = texPosition + vec2(0.00018000000272877514362335205078125, 0.0);
+}
+

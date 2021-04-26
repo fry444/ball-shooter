@@ -1,0 +1,21 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp float time;
+
+out highp vec4 FragColor;
+in highp vec2 texCoord;
+
+void main()
+{
+    FragColor = texture(tex, texCoord);
+    FragColor.w = 1.0;
+    highp float x = (0.0089999996125698089599609375 * texCoord.x) * sin(100.0 * time);
+    highp float y = (0.0089999996125698089599609375 * texCoord.y) * cos(100.0 * time);
+    highp vec2 c = vec2(texCoord.x + x, texCoord.y + y);
+    highp vec4 diffuse_color = texture(tex, c);
+    FragColor = diffuse_color;
+}
+

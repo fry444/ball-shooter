@@ -1,0 +1,18 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp float brightness;
+
+in highp vec2 texCoord;
+out highp vec4 color;
+
+void main()
+{
+    highp vec4 col = texture(tex, texCoord);
+    highp vec3 _26 = col.xyz * brightness;
+    col = vec4(_26.x, _26.y, _26.z, col.w);
+    color = col;
+}
+

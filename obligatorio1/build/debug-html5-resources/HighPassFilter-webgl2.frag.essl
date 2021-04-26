@@ -1,0 +1,28 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp vec3 brightIndex;
+uniform highp float tolerance;
+uniform highp vec3 darkColor;
+uniform highp vec3 tintColor;
+
+in highp vec2 texCoord;
+out highp vec4 FragColor;
+
+void main()
+{
+    highp vec4 color = texture(tex, texCoord);
+    highp float brightness = dot(color.xyz, brightIndex);
+    if (brightness > tolerance)
+    {
+        FragColor = vec4(color.xyz, 1.0);
+    }
+    else
+    {
+        FragColor = vec4(darkColor, 1.0);
+    }
+    FragColor *= vec4(tintColor, 1.0);
+}
+

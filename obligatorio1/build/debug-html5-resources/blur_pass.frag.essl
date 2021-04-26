@@ -1,0 +1,25 @@
+#version 100
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp vec2 dirInv;
+
+varying highp vec2 texCoord;
+
+void main()
+{
+    gl_FragData[0] = texture2D(tex, texCoord + (dirInv * 5.5));
+    gl_FragData[0] += texture2D(tex, texCoord + (dirInv * 4.5));
+    gl_FragData[0] += texture2D(tex, texCoord + (dirInv * 3.5));
+    gl_FragData[0] += texture2D(tex, texCoord + (dirInv * 2.5));
+    gl_FragData[0] += texture2D(tex, texCoord + (dirInv * 1.5));
+    gl_FragData[0] += texture2D(tex, texCoord);
+    gl_FragData[0] += texture2D(tex, texCoord - (dirInv * 1.5));
+    gl_FragData[0] += texture2D(tex, texCoord - (dirInv * 2.5));
+    gl_FragData[0] += texture2D(tex, texCoord - (dirInv * 3.5));
+    gl_FragData[0] += texture2D(tex, texCoord - (dirInv * 4.5));
+    gl_FragData[0] += texture2D(tex, texCoord - (dirInv * 5.5));
+    gl_FragData[0] /= vec4(11.0);
+}
+

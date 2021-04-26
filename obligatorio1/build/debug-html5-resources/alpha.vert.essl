@@ -1,0 +1,15 @@
+#version 100
+
+uniform mat4 projectionMatrix;
+uniform float alpha;
+
+attribute vec3 vertexPosition;
+varying vec3 texCoord;
+attribute vec2 texPosition;
+
+void main()
+{
+    gl_Position = projectionMatrix * vec4(vertexPosition, 1.0);
+    texCoord = vec3(texPosition, alpha);
+}
+

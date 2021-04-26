@@ -1,0 +1,19 @@
+#version 100
+precision mediump float;
+precision highp int;
+
+uniform highp vec2 resolution;
+uniform highp sampler2D tex;
+
+varying highp vec2 texCoord;
+
+void main()
+{
+    highp vec2 value = resolution;
+    highp vec4 c1 = texture2D(tex, texCoord - value);
+    highp vec4 c2 = texture2D(tex, texCoord);
+    highp vec4 c3 = texture2D(tex, texCoord + value);
+    highp vec4 col = vec4(c1.x, c2.y, c3.z, (c1.w + c2.w) + c3.z);
+    gl_FragData[0] = col;
+}
+

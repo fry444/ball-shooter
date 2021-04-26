@@ -1,0 +1,84 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D gbufferD;
+uniform highp sampler2D tex;
+
+in highp vec2 texCoord;
+out highp vec4 FragColor;
+
+highp float linearize(highp float depth, highp vec2 cameraProj)
+{
+    return cameraProj.y / (depth - cameraProj.x);
+}
+
+highp vec2 rand2(highp vec2 coord)
+{
+    highp float noiseX = (((fract(1.0 - (coord.x * 550.0)) * 0.25) + (fract(coord.y * 250.0) * 0.75)) * 2.0) - 1.0;
+    highp float noiseY = (((fract(1.0 - (coord.x * 550.0)) * 0.75) + (fract(coord.y * 250.0) * 0.25)) * 2.0) - 1.0;
+    return vec2(noiseX, noiseY);
+}
+
+highp vec3 color(highp vec2 coords, highp float blur, highp sampler2D tex_1, highp vec2 texStep)
+{
+    highp vec3 col = vec3(0.0);
+    col.x = texture(tex_1, coords + (((vec2(0.0, 1.0) * texStep) * 0.699999988079071044921875) * blur)).x;
+    col.y = texture(tex_1, coords + (((vec2(-0.865999996662139892578125, -0.5) * texStep) * 0.699999988079071044921875) * blur)).y;
+    col.z = texture(tex_1, coords + (((vec2(0.865999996662139892578125, -0.5) * texStep) * 0.699999988079071044921875) * blur)).z;
+    highp float lum = dot(col, vec3(0.2989999949932098388671875, 0.58700001239776611328125, 0.114000000059604644775390625));
+    highp float thresh = max((lum - 0.5) * 2.0, 0.0);
+    return col + mix(vec3(0.0), col, vec3(thresh * blur));
+}
+
+highp vec3 dof(highp vec2 texCoord_1, highp float gdepth, highp sampler2D tex_1, highp sampler2D gbufferD_1, highp vec2 texStep, highp vec2 cameraProj)
+{
+    highp vec2 param = cameraProj;
+    highp float depth = linearize(gdepth, param);
+    highp vec2 param_1 = cameraProj;
+    highp float fDepth = linearize((texture(gbufferD_1, vec2(0.5, 0.4000000059604644775390625)).x * 2.0) - 1.0, param_1);
+    highp float d = fDepth * 1000.0;
+    highp float o = depth * 1000.0;
+    highp float a = (o * 250.0) / (o - 250.0);
+    highp float b = (d * 250.0) / (d - 250.0);
+    highp float c = (d - 250.0) / ((d * 15.0) * 0.10999999940395355224609375);
+    highp float blur = abs(a - b) * c;
+    blur = clamp(blur, 0.0, 1.0);
+    highp vec2 _noise = (rand2(texCoord_1) * 9.9999997473787516355514526367188e-05) * blur;
+    highp float w = ((texStep.x * blur) * 1.0) + _noise.x;
+    highp float h = ((texStep.y * blur) * 1.0) + _noise.y;
+    highp vec3 col = vec3(0.0);
+    if (blur < 0.0500000007450580596923828125)
+    {
+        col = texture(tex_1, texCoord_1).xyz;
+    }
+    else
+    {
+        col = texture(tex_1, texCoord_1).xyz;
+        highp float s = 1.0;
+        for (int i = 1; i <= 2; i++)
+        {
+            int ringsamples = i * 2;
+            for (int j = 0; j < ringsamples; j++)
+            {
+                highp float _step = 6.283185482025146484375 / float(ringsamples);
+                highp float pw = cos(float(j) * _step) * float(i);
+                highp float ph = sin(float(j) * _step) * float(i);
+                highp float p = 1.0;
+                highp vec2 param_2 = texCoord_1 + vec2(pw * w, ph * h);
+                col += ((color(param_2, blur, tex_1, texStep) * mix(1.0, float(i) / 2.0, 0.5)) * p);
+                s += ((1.0 * mix(1.0, float(i) / 2.0, 0.5)) * p);
+            }
+        }
+        col /= vec3(s);
+    }
+    return col;
+}
+
+void main()
+{
+    highp float depth = texture(gbufferD, texCoord).x;
+    highp vec4 col = vec4(dof(texCoord, depth, tex, gbufferD, vec2(0.00999999977648258209228515625), vec2(0.20000000298023223876953125, 0.25)), 1.0);
+    FragColor = col;
+}
+

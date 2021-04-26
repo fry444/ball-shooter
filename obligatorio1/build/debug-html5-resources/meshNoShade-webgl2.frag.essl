@@ -1,0 +1,14 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+
+out highp vec4 color;
+in highp vec2 texCoord;
+
+void main()
+{
+    color = texture(tex, texCoord);
+}
+

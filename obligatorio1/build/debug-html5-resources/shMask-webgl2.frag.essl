@@ -1,0 +1,20 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp sampler2D mask;
+
+in highp vec2 texCoord;
+in highp vec2 texCoordMask;
+out highp vec4 FragColor;
+
+void main()
+{
+    highp vec4 texcolor = texture(tex, texCoord);
+    highp vec4 maskColor = texture(mask, texCoordMask);
+    highp vec3 _34 = texcolor.xyz * maskColor.w;
+    texcolor = vec4(_34.x, _34.y, _34.z, texcolor.w);
+    FragColor = vec4(texcolor.x, texcolor.y, texcolor.z, maskColor.w * texcolor.w);
+}
+

@@ -1,0 +1,18 @@
+#version 100
+
+uniform mat4 projectionMatrix;
+
+attribute vec3 vertexPosition;
+varying vec2 texCoord;
+attribute vec2 texPosition;
+varying vec2 texCoordMask;
+
+void main()
+{
+    vec4 pos = projectionMatrix * vec4(vertexPosition, 1.0);
+    texCoord = texPosition;
+    vec2 v_texCoordMask = texPosition;
+    texCoordMask = v_texCoordMask;
+    gl_Position = pos;
+}
+

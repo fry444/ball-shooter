@@ -1,0 +1,27 @@
+#version 100
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp vec3 brightIndex;
+uniform highp float tolerance;
+uniform highp vec3 darkColor;
+uniform highp vec3 tintColor;
+
+varying highp vec2 texCoord;
+
+void main()
+{
+    highp vec4 color = texture2D(tex, texCoord);
+    highp float brightness = dot(color.xyz, brightIndex);
+    if (brightness > tolerance)
+    {
+        gl_FragData[0] = vec4(color.xyz, 1.0);
+    }
+    else
+    {
+        gl_FragData[0] = vec4(darkColor, 1.0);
+    }
+    gl_FragData[0] *= vec4(tintColor, 1.0);
+}
+

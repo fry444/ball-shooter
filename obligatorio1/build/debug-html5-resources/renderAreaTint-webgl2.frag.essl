@@ -1,0 +1,16 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+
+in highp vec2 texCoord;
+out highp vec4 FragColor;
+
+void main()
+{
+    highp vec4 texcolor = texture(tex, texCoord);
+    highp vec4 col = vec4(texcolor.x + 0.100000001490116119384765625, texcolor.y, texcolor.z, texcolor.w + 0.100000001490116119384765625);
+    FragColor = col;
+}
+

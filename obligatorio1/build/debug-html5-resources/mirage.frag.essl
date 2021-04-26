@@ -1,0 +1,20 @@
+#version 100
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp float time;
+
+varying highp vec2 texCoord;
+
+void main()
+{
+    gl_FragData[0] = texture2D(tex, texCoord);
+    gl_FragData[0].w = 1.0;
+    highp float x = (0.0089999996125698089599609375 * texCoord.x) * sin(100.0 * time);
+    highp float y = (0.0089999996125698089599609375 * texCoord.y) * cos(100.0 * time);
+    highp vec2 c = vec2(texCoord.x + x, texCoord.y + y);
+    highp vec4 diffuse_color = texture2D(tex, c);
+    gl_FragData[0] = diffuse_color;
+}
+

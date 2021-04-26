@@ -1,0 +1,17 @@
+#version 100
+precision mediump float;
+precision highp int;
+
+uniform highp sampler2D tex;
+uniform highp sampler2D baseColor;
+uniform highp float amount;
+
+varying highp vec2 texCoord;
+
+void main()
+{
+    highp vec4 texcolor = texture2D(tex, texCoord);
+    highp vec4 texcolor2 = texture2D(baseColor, texCoord);
+    gl_FragData[0] = (texcolor * 0.5) + texcolor2;
+}
+

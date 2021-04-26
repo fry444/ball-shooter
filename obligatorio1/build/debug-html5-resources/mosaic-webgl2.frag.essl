@@ -1,0 +1,17 @@
+#version 300 es
+precision mediump float;
+precision highp int;
+
+uniform highp float tiles;
+uniform highp sampler2D tex;
+
+in highp vec2 texCoord;
+out highp vec4 FragColor;
+
+void main()
+{
+    highp vec2 uv = texCoord;
+    uv = floor(uv * tiles) / vec2(tiles);
+    FragColor = texture(tex, uv);
+}
+
