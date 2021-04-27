@@ -43505,6 +43505,7 @@ kha_vr_TimeWarpParms.prototype = {
 	,__class__: kha_vr_TimeWarpParms
 };
 var states_BallShooter = function() {
+	this.kills = 0;
 	this.cannonHealth = 10;
 	this.cannonInitialY = kha_System.windowHeight() - 20;
 	this.cannonInitialX = kha_System.windowWidth() / 2 - 20;
@@ -43521,18 +43522,17 @@ states_BallShooter.prototype = $extend(com_framework_utils_State.prototype,{
 	,cannonInitialX: null
 	,cannonInitialY: null
 	,cannonHealth: null
+	,kills: null
+	,healthValue: null
+	,killsValue: null
 	,load: function(resources) {
 		var atlas = new com_loading_basicResources_JoinAtlas(512,512);
-		atlas.add(new com_loading_basicResources_FontLoader("Kenney_Thick",20));
+		atlas.add(new com_loading_basicResources_FontLoader("Kenney_Thick",10));
 		resources.add(new com_loading_basicResources_ImageLoader("ball"));
 		resources.add(atlas);
 	}
 	,init: function() {
-		var text = new com_gEngine_display_Text("Kenney_Thick");
-		text.x = 50;
-		text.y = 50;
-		text.set_text("HEALTH ");
-		this.stage.addChild(text);
+		this.showTexts();
 		this.simulationLayer = new com_gEngine_display_Layer();
 		this.stage.addChild(this.simulationLayer);
 		states_GlobalGameData.simulationLayer = this.simulationLayer;
@@ -43540,6 +43540,43 @@ states_BallShooter.prototype = $extend(com_framework_utils_State.prototype,{
 		this.addChild(this.cannon);
 		states_GlobalGameData.cannon = this.cannon;
 		com_framework_utils_State.prototype.init.call(this);
+	}
+	,showTexts: function() {
+		var healthText = new com_gEngine_display_Text("Kenney_Thick");
+		healthText.x = 50;
+		healthText.y = 50;
+		healthText.set_text("HEALTH");
+		this.stage.addChild(healthText);
+		this.healthValue = new com_gEngine_display_Text("Kenney_Thick");
+		this.healthValue.x = 120;
+		this.healthValue.y = 50;
+		this.healthValue.set_text("" + this.cannonHealth);
+		this.stage.addChild(this.healthValue);
+		var killsText = new com_gEngine_display_Text("Kenney_Thick");
+		killsText.x = 50;
+		killsText.y = 100;
+		killsText.set_text("KILLS");
+		this.stage.addChild(killsText);
+		this.killsValue = new com_gEngine_display_Text("Kenney_Thick");
+		this.killsValue.x = 120;
+		this.killsValue.y = 100;
+		this.killsValue.set_text("" + this.kills);
+		this.stage.addChild(this.killsValue);
+		var instructionText = new com_gEngine_display_Text("Kenney_Thick");
+		instructionText.x = 1000;
+		instructionText.y = 50;
+		instructionText.set_text("Press B to generate more balls");
+		this.stage.addChild(instructionText);
+	}
+	,updateHealthValue: function() {
+		this.cannonHealth--;
+		this.healthValue.set_text("" + this.cannonHealth);
+		this.stage.update();
+	}
+	,updateKillsValue: function() {
+		this.kills++;
+		this.killsValue.set_text("" + this.kills);
+		this.stage.update();
 	}
 	,update: function(dt) {
 		if(com_framework_utils_Input.i.isKeyCodePressed(66)) {
@@ -43555,7 +43592,7 @@ states_BallShooter.prototype = $extend(com_framework_utils_State.prototype,{
 		this.addChild(ball);
 	}
 	,cannonVsBall: function(cannonCollision,ballCollision) {
-		this.cannonHealth--;
+		this.updateHealthValue();
 		if(this.cannonHealth <= 0) {
 			this.changeState(new states_EndGame(false));
 		}
@@ -43566,6 +43603,8 @@ states_BallShooter.prototype = $extend(com_framework_utils_State.prototype,{
 		if(newBallType > 0) {
 			this.addBall(ball.getX(),ball.getY(),newBallType,-1);
 			this.addBall(ball.getX(),ball.getY(),newBallType,1);
+		} else {
+			this.updateKillsValue();
 		}
 		ball.die();
 		var bullet = bulletCollision.userData;

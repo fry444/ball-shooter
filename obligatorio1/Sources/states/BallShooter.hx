@@ -28,20 +28,19 @@ class BallShooter extends State{
     var cannonInitialX=(Screen.getWidth()/2)-20;
     var cannonInitialY=Screen.getHeight()-20;
     var cannonHealth:Float = 10;
+    var kills:Float = 0;
+    var healthValue:Text;
+    var killsValue:Text;
 
     override function load(resources:Resources) {
         var atlas = new JoinAtlas(512,512);
-        atlas.add(new FontLoader("Kenney_Thick",20));
+        atlas.add(new FontLoader("Kenney_Thick",10));
         resources.add(new ImageLoader("ball"));
         resources.add(atlas);
     }
 
     override function init() {
-        var text = new Text("Kenney_Thick");
-        text.x=50;
-        text.y=50;
-        text.text="HEALTH ";
-        stage.addChild(text);
+        showTexts();
         simulationLayer = new Layer();
         stage.addChild(simulationLayer);
         GlobalGameData.simulationLayer = simulationLayer;
@@ -49,6 +48,46 @@ class BallShooter extends State{
         addChild(cannon);
         GlobalGameData.cannon=cannon;        
         super.init();
+    }
+
+    function showTexts(){
+        var healthText = new Text("Kenney_Thick");
+        healthText.x=50;
+        healthText.y=50;
+        healthText.text="HEALTH";
+        stage.addChild(healthText);  
+        healthValue = new Text("Kenney_Thick");
+        healthValue.x=120;
+        healthValue.y=50;
+        healthValue.text=""+cannonHealth;
+        stage.addChild(healthValue);      
+        var killsText = new Text("Kenney_Thick");
+        killsText.x=50;
+        killsText.y=100;
+        killsText.text="KILLS";
+        stage.addChild(killsText);  
+        killsValue = new Text("Kenney_Thick");
+        killsValue.x=120;
+        killsValue.y=100;
+        killsValue.text=""+kills;
+        stage.addChild(killsValue);     
+        var instructionText = new Text("Kenney_Thick");
+        instructionText.x=1000;
+        instructionText.y=50;
+        instructionText.text="Press B to generate more balls";
+        stage.addChild(instructionText);
+    }
+
+    function updateHealthValue(){
+        cannonHealth--;
+        healthValue.text=""+cannonHealth;
+        stage.update();
+    }
+
+    function updateKillsValue(){
+        kills++;
+        killsValue.text=""+kills;
+        stage.update();
     }
 
     override function update(dt:Float) {
@@ -66,8 +105,8 @@ class BallShooter extends State{
         addChild(ball);
     }
 
-    function cannonVsBall(cannonCollision:ICollider, ballCollision:ICollider){
-        cannonHealth--;
+    function cannonVsBall(cannonCollision:ICollider, ballCollision:ICollider){        
+        updateHealthValue();
         if(cannonHealth<=0){
             changeState(new EndGame(false));
         }        
@@ -79,6 +118,8 @@ class BallShooter extends State{
         if(newBallType>0){
             addBall(ball.getX(),ball.getY(),newBallType, -1);
             addBall(ball.getX(),ball.getY(),newBallType, 1);
+        }else{
+            updateKillsValue();
         }     
         ball.die();        
         var bullet:Bullet = cast bulletCollision.userData;
