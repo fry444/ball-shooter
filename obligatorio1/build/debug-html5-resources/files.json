@@ -264,11 +264,11 @@
 				"cannon.png"
 			],
 			"file_sizes": [
-				36798
+				26626
 			],
 			"type": "image",
-			"original_width": 459,
-			"original_height": 459
+			"original_width": 324,
+			"original_height": 324
 		},
 		{
 			"name": "cannonLogo",

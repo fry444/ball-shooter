@@ -1,12 +1,12 @@
 package states;
 
+import kha.Color;
 import com.gEngine.display.Text;
 import com.loading.basicResources.FontLoader;
 import com.loading.basicResources.JoinAtlas;
 import com.framework.utils.Random;
 import kha.Canvas;
 import kha.math.FastVector2;
-import js.html.Console;
 import gameObjects.Bullet;
 import com.collision.platformer.ICollider;
 import com.collision.platformer.CollisionEngine;
@@ -72,16 +72,29 @@ class BallShooter extends State{
         killsValue.y=100;
         killsValue.text=""+kills;
         stage.addChild(killsValue);     
-        var instructionText = new Text("Kenney_Thick");
-        instructionText.x=1000;
-        instructionText.y=50;
-        instructionText.text="Press B to generate balls";
-        stage.addChild(instructionText);
+        var instruction1Text = new Text("Kenney_Thick");
+        instruction1Text.x=1000;
+        instruction1Text.y=50;
+        instruction1Text.text="Press B to generate balls";
+        stage.addChild(instruction1Text);
+        var instruction2Text = new Text("Kenney_Thick");
+        instruction2Text.x=1000;
+        instruction2Text.y=100;
+        instruction2Text.text="Press SPACE to shoot";
+        stage.addChild(instruction2Text);
     }
 
     function updateHealthValue(){
         cannonHealth--;
         healthValue.text=""+cannonHealth;
+        if(cannonHealth<7){
+            healthValue.set_color(Color.Yellow);
+        }else if(cannonHealth<4){
+            healthValue.set_color(Color.Red);
+        }
+        else{
+            healthValue.set_color(Color.Green);
+        }
         stage.update();
     }
 

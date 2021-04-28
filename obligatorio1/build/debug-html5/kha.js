@@ -406,7 +406,6 @@ com_collision_platformer_ICollider.prototype = {
 	,userData: null
 	,parent: null
 	,removeFromParent: null
-	,debugDraw: null
 	,__class__: com_collision_platformer_ICollider
 };
 var com_collision_platformer_CollisionBox = function() {
@@ -573,74 +572,16 @@ com_collision_platformer_CollisionBox.prototype = $extend(com_collision_platform
 			return false;
 		}
 	}
-	,debugDraw: function(canvas) {
-		var g2 = canvas.get_g2();
-		g2.drawLine(this.x,this.y,this.x + this.width,this.y);
-		g2.drawLine(this.x + this.width,this.y,this.x + this.width,this.y + this.height);
-		g2.drawLine(this.x + this.width,this.y + this.height,this.x,this.y + this.height);
-		g2.drawLine(this.x,this.y + this.height,this.x,this.y);
-	}
 	,__class__: com_collision_platformer_CollisionBox
 });
 var com_collision_platformer_CollisionEngine = function() {
 };
 $hxClasses["com.collision.platformer.CollisionEngine"] = com_collision_platformer_CollisionEngine;
 com_collision_platformer_CollisionEngine.__name__ = true;
-com_collision_platformer_CollisionEngine.renderDebug = function(canvas,camera) {
-	canvas.get_g2().begin(false);
-	canvas.get_g2().set_color(-256);
-	var cV = camera.view;
-	var scaleX = canvas.get_width() / camera.width;
-	var scaleY = canvas.get_height() / camera.height;
-	var _this = canvas.get_g2();
-	var _this__00 = scaleX;
-	var _this__10 = 0;
-	var _this__20 = 0;
-	var _this__01 = 0;
-	var _this__11 = scaleY;
-	var _this__21 = 0;
-	var _this__02 = 0;
-	var _this__12 = 0;
-	var _this__22 = 1;
-	var m__00 = cV._00;
-	var m__10 = cV._10;
-	var m__20 = cV._30 + camera.width * 0.5;
-	var m__01 = cV._01;
-	var m__11 = cV._11;
-	var m__21 = cV._31 + camera.height * 0.5;
-	var m__02 = cV._03;
-	var m__12 = cV._13;
-	var m__22 = cV._33;
-	var transformation = new kha_math_FastMatrix3(_this__00 * m__00 + _this__10 * m__01 + _this__20 * m__02,_this__00 * m__10 + _this__10 * m__11 + _this__20 * m__12,_this__00 * m__20 + _this__10 * m__21 + _this__20 * m__22,_this__01 * m__00 + _this__11 * m__01 + _this__21 * m__02,_this__01 * m__10 + _this__11 * m__11 + _this__21 * m__12,_this__01 * m__20 + _this__11 * m__21 + _this__21 * m__22,_this__02 * m__00 + _this__12 * m__01 + _this__22 * m__02,_this__02 * m__10 + _this__12 * m__11 + _this__22 * m__12,_this__02 * m__20 + _this__12 * m__21 + _this__22 * m__22);
-	_this.setTransformation(transformation);
-	var _this1 = _this.transformations[_this.transformationIndex];
-	_this1._00 = transformation._00;
-	_this1._10 = transformation._10;
-	_this1._20 = transformation._20;
-	_this1._01 = transformation._01;
-	_this1._11 = transformation._11;
-	_this1._21 = transformation._21;
-	_this1._02 = transformation._02;
-	_this1._12 = transformation._12;
-	_this1._22 = transformation._22;
-	var _g = 0;
-	var _g1 = com_collision_platformer_CollisionEngine.colliders;
-	while(_g < _g1.length) {
-		var collider = _g1[_g];
-		++_g;
-		collider.debugDraw(canvas);
-	}
-	canvas.get_g2().end();
-	com_collision_platformer_CollisionEngine.colliders.splice(0,com_collision_platformer_CollisionEngine.colliders.length);
-};
 com_collision_platformer_CollisionEngine.collide = function(A,B,aCallBack) {
-	com_collision_platformer_CollisionEngine.colliders.push(A);
-	com_collision_platformer_CollisionEngine.colliders.push(B);
 	return A.collide(B,aCallBack);
 };
 com_collision_platformer_CollisionEngine.bulletCollide = function(A,B,iterations,aCallBack) {
-	com_collision_platformer_CollisionEngine.colliders.push(A);
-	com_collision_platformer_CollisionEngine.colliders.push(B);
 	var returnValue = false;
 	var AendX = A.x;
 	var AendY = A.y;
@@ -666,8 +607,6 @@ com_collision_platformer_CollisionEngine.bulletCollide = function(A,B,iterations
 	return returnValue;
 };
 com_collision_platformer_CollisionEngine.overlap = function(A,B,aCallBack) {
-	com_collision_platformer_CollisionEngine.colliders.push(A);
-	com_collision_platformer_CollisionEngine.colliders.push(B);
 	return A.overlap(B,aCallBack);
 };
 com_collision_platformer_CollisionEngine.prototype = {
@@ -768,15 +707,6 @@ com_collision_platformer_CollisionGroup.prototype = {
 	}
 	,collisionType: function() {
 		return 2;
-	}
-	,debugDraw: function(canvas) {
-		var _g = 0;
-		var _g1 = this.colliders;
-		while(_g < _g1.length) {
-			var col = _g1[_g];
-			++_g;
-			col.debugDraw(canvas);
-		}
 	}
 	,__class__: com_collision_platformer_CollisionGroup
 };
@@ -11846,6 +11776,7 @@ var gameObjects_Ball = function(x,y,type,direction,newVelocity,collisionGroup) {
 	this.ballSprite.x = x;
 	this.ballSprite.y = y;
 	this.ballType = type;
+	this.setBallColor(this.ballType);
 	this.sizeMultiplier = type / 2;
 	this.ballRadio = this.ballSprite.width() * this.sizeMultiplier | 0;
 	this.ballSprite.scaleX = this.sizeMultiplier;
@@ -11894,6 +11825,15 @@ gameObjects_Ball.prototype = $extend(com_framework_utils_Entity.prototype,{
 		com_framework_utils_Entity.prototype.destroy.call(this);
 		this.ballSprite.removeFromParent();
 		this.collision.removeFromParent();
+	}
+	,setBallColor: function(ballType) {
+		if(ballType == 3) {
+			this.ballSprite.colorMultiplication(255,0,0);
+		} else if(ballType == 2) {
+			this.ballSprite.colorMultiplication(0,255,0);
+		} else {
+			this.ballSprite.colorMultiplication(0,0,255);
+		}
 	}
 	,getType: function() {
 		return this.ballType;
@@ -13571,8 +13511,8 @@ var kha__$Assets_ImageList = function() {
 	this.cannonLogoDescription = { name : "cannonLogo", original_height : 425, file_sizes : [35202], original_width : 334, files : ["cannonLogo.png"], type : "image"};
 	this.cannonLogoName = "cannonLogo";
 	this.cannonLogo = null;
-	this.cannonSize = 36798;
-	this.cannonDescription = { name : "cannon", original_height : 459, file_sizes : [36798], original_width : 459, files : ["cannon.png"], type : "image"};
+	this.cannonSize = 26626;
+	this.cannonDescription = { name : "cannon", original_height : 324, file_sizes : [26626], original_width : 324, files : ["cannon.png"], type : "image"};
 	this.cannonName = "cannon";
 	this.cannon = null;
 	this.ballSize = 469;
@@ -13605,7 +13545,7 @@ kha__$Assets_ImageList.prototype = {
 	,cannonSize: null
 	,cannonLoad: function(done,failure) {
 		kha_Assets.loadImage("cannon",function(image) {
-			done(36798);
+			done(26626);
 		},failure,{ fileName : "kha/internal/AssetsBuilder.hx", lineNumber : 136, className : "kha._Assets.ImageList", methodName : "cannonLoad"});
 	}
 	,cannonUnload: function() {
@@ -43440,15 +43380,27 @@ states_BallShooter.prototype = $extend(com_framework_utils_State.prototype,{
 		this.killsValue.y = 100;
 		this.killsValue.set_text("" + this.kills);
 		this.stage.addChild(this.killsValue);
-		var instructionText = new com_gEngine_display_Text("Kenney_Thick");
-		instructionText.x = 1000;
-		instructionText.y = 50;
-		instructionText.set_text("Press B to generate balls");
-		this.stage.addChild(instructionText);
+		var instruction1Text = new com_gEngine_display_Text("Kenney_Thick");
+		instruction1Text.x = 1000;
+		instruction1Text.y = 50;
+		instruction1Text.set_text("Press B to generate balls");
+		this.stage.addChild(instruction1Text);
+		var instruction2Text = new com_gEngine_display_Text("Kenney_Thick");
+		instruction2Text.x = 1000;
+		instruction2Text.y = 100;
+		instruction2Text.set_text("Press SPACE to shoot");
+		this.stage.addChild(instruction2Text);
 	}
 	,updateHealthValue: function() {
 		this.cannonHealth--;
 		this.healthValue.set_text("" + this.cannonHealth);
+		if(this.cannonHealth < 7) {
+			this.healthValue.set_color(-256);
+		} else if(this.cannonHealth < 4) {
+			this.healthValue.set_color(-65536);
+		} else {
+			this.healthValue.set_color(-16711936);
+		}
 		this.stage.update();
 	}
 	,updateKillsValue: function() {
@@ -43487,10 +43439,6 @@ states_BallShooter.prototype = $extend(com_framework_utils_State.prototype,{
 			this.updateKillsValue();
 		}
 		ball.die();
-	}
-	,draw: function(framebuffer) {
-		com_framework_utils_State.prototype.draw.call(this,framebuffer);
-		com_collision_platformer_CollisionEngine.renderDebug(framebuffer,this.stage.cameras[0]);
 	}
 	,__class__: states_BallShooter
 });
@@ -43611,7 +43559,6 @@ if(ArrayBuffer.prototype.slice == null) {
 }
 com_TimeManager.time = 0;
 com_TimeManager.multiplier = 1;
-com_collision_platformer_CollisionEngine.colliders = [];
 com_collision_platformer_Sides.NONE = 0;
 com_collision_platformer_Sides.LEFT = 1;
 com_collision_platformer_Sides.RIGHT = 2;

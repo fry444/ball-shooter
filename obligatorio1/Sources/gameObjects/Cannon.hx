@@ -4,7 +4,6 @@ import states.GlobalGameData;
 import com.framework.utils.Input;
 import kha.input.KeyCode;
 import com.collision.platformer.CollisionGroup;
-import com.gEngine.display.Layer;
 import com.gEngine.helpers.Screen;
 import kha.math.FastVector2;
 import com.collision.platformer.CollisionBox;

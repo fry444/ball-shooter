@@ -29,6 +29,7 @@ class Ball extends Entity{
         ballSprite.x=x;
         ballSprite.y=y;
         ballType = type;
+        setBallColor(ballType);
         sizeMultiplier = type/2;
         ballRadio = Std.int(ballSprite.width()*sizeMultiplier);
         ballSprite.scaleX = sizeMultiplier;
@@ -69,6 +70,16 @@ class Ball extends Entity{
         super.destroy();
         ballSprite.removeFromParent();
         collision.removeFromParent();
+    }
+
+    function setBallColor(ballType:Int){
+        if(ballType==3){
+            ballSprite.colorMultiplication(255,0,0);
+        }else if(ballType==2){
+            ballSprite.colorMultiplication(0,255,0);
+        }else{
+            ballSprite.colorMultiplication(0,0,255);
+        }
     }
 
     public function getType(){
