@@ -29,7 +29,6 @@ class EndGame extends State{
     }
 
     override function init() {
-        this.stageColor(0.5,0.5,0.5);
         if(winState){
             var text = new Text("Kenney_Thick");
             text.x=Screen.getWidth()*0.50-50;
@@ -39,16 +38,21 @@ class EndGame extends State{
         }else{
             var image = new Sprite("gameOver");
             image.smooth=false;
-            image.x=200;
-            image.y=200;
+            image.x=524.5;
+            image.y=225;
             stage.addChild(image);
+            var text = new Text("Kenney_Thick");
+            text.x=440;
+            text.y=470;
+            text.text="Press R to restart the game";
+            stage.addChild(text);
         }
         
     }
     override function update(dt:Float) {
         super.update(dt);
-        if(Input.i.isKeyCodePressed(KeyCode.Space)){
-            this.changeState(new SpaceInvader());
+        if(Input.i.isKeyCodePressed(KeyCode.R)){
+            this.changeState(new BallShooter());
         }
     }
 }

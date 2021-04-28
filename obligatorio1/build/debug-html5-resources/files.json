@@ -271,6 +271,18 @@
 			"original_height": 459
 		},
 		{
+			"name": "cannonLogo",
+			"files": [
+				"cannonLogo.png"
+			],
+			"file_sizes": [
+				35202
+			],
+			"type": "image",
+			"original_width": 334,
+			"original_height": 425
+		},
+		{
 			"name": "filmGrain_frag",
 			"files": [
 				"filmGrain.frag.essl",

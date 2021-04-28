@@ -12,6 +12,7 @@ import com.gEngine.helpers.RectangleDisplay;
 import com.framework.utils.Entity;
 
 class Cannon extends Entity{
+	
     var display:RectangleDisplay;
 
     public var collision: CollisionBox;
@@ -19,6 +20,7 @@ class Cannon extends Entity{
 	var facingDir:FastVector2=new FastVector2(0,-1);
     var speed:Float = 350;
 	var screenWidth = Screen.getWidth();
+
 
     public function new(x:Float, y:Float) {        
 		super();

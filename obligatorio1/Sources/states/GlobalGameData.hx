@@ -1,7 +1,6 @@
 package states;
 
 import gameObjects.Cannon;
-import gameObjects.Player;
 import com.gEngine.display.Layer;
 
 class GlobalGameData {

@@ -75,7 +75,7 @@ class BallShooter extends State{
         var instructionText = new Text("Kenney_Thick");
         instructionText.x=1000;
         instructionText.y=50;
-        instructionText.text="Press B to generate more balls";
+        instructionText.text="Press B to generate balls";
         stage.addChild(instructionText);
     }
 
