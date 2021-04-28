@@ -11906,7 +11906,7 @@ var gameObjects_Cannon = function(x,y) {
 	this.facingDir = new kha_math_FastVector2(0,-1);
 	com_framework_utils_Entity.call(this);
 	this.display = new com_gEngine_helpers_RectangleDisplay();
-	this.display.setColor(0,0,255);
+	this.display.setColor(0,188,212);
 	this.display.scaleX = 20;
 	this.display.scaleY = 20;
 	this.display.x = x;
@@ -13490,7 +13490,11 @@ js_lib__$ArrayBuffer_ArrayBufferCompat.sliceImpl = function(begin,end) {
 	return resultArray.buffer;
 };
 var kha__$Assets_ImageList = function() {
-	this.names = ["ball","cannon","cannonLogo","gameOver","grass","jason","julia"];
+	this.names = ["ball","cannon","cannonLogo","cannonMini","cannonMini2","cannonPixel","gameOver","grass","jason","julia","newCannon"];
+	this.newCannonSize = 5405;
+	this.newCannonDescription = { name : "newCannon", original_height : 100, file_sizes : [5405], original_width : 100, files : ["newCannon.png"], type : "image"};
+	this.newCannonName = "newCannon";
+	this.newCannon = null;
 	this.juliaSize = 14731;
 	this.juliaDescription = { name : "julia", original_height : 167, file_sizes : [14731], original_width : 237, files : ["julia.png"], type : "image"};
 	this.juliaName = "julia";
@@ -13507,6 +13511,18 @@ var kha__$Assets_ImageList = function() {
 	this.gameOverDescription = { name : "gameOver", original_height : 244, file_sizes : [17088], original_width : 231, files : ["gameOver.png"], type : "image"};
 	this.gameOverName = "gameOver";
 	this.gameOver = null;
+	this.cannonPixelSize = 25807;
+	this.cannonPixelDescription = { name : "cannonPixel", original_height : 324, file_sizes : [25807], original_width : 324, files : ["cannonPixel.png"], type : "image"};
+	this.cannonPixelName = "cannonPixel";
+	this.cannonPixel = null;
+	this.cannonMini2Size = 5052;
+	this.cannonMini2Description = { name : "cannonMini2", original_height : 81, file_sizes : [5052], original_width : 81, files : ["cannonMini2.png"], type : "image"};
+	this.cannonMini2Name = "cannonMini2";
+	this.cannonMini2 = null;
+	this.cannonMiniSize = 11925;
+	this.cannonMiniDescription = { name : "cannonMini", original_height : 162, file_sizes : [11925], original_width : 162, files : ["cannonMini.png"], type : "image"};
+	this.cannonMiniName = "cannonMini";
+	this.cannonMini = null;
 	this.cannonLogoSize = 35202;
 	this.cannonLogoDescription = { name : "cannonLogo", original_height : 425, file_sizes : [35202], original_width : 334, files : ["cannonLogo.png"], type : "image"};
 	this.cannonLogoName = "cannonLogo";
@@ -13565,6 +13581,45 @@ kha__$Assets_ImageList.prototype = {
 		this.cannonLogo.unload();
 		this.cannonLogo = null;
 	}
+	,cannonMini: null
+	,cannonMiniName: null
+	,cannonMiniDescription: null
+	,cannonMiniSize: null
+	,cannonMiniLoad: function(done,failure) {
+		kha_Assets.loadImage("cannonMini",function(image) {
+			done(11925);
+		},failure,{ fileName : "kha/internal/AssetsBuilder.hx", lineNumber : 136, className : "kha._Assets.ImageList", methodName : "cannonMiniLoad"});
+	}
+	,cannonMiniUnload: function() {
+		this.cannonMini.unload();
+		this.cannonMini = null;
+	}
+	,cannonMini2: null
+	,cannonMini2Name: null
+	,cannonMini2Description: null
+	,cannonMini2Size: null
+	,cannonMini2Load: function(done,failure) {
+		kha_Assets.loadImage("cannonMini2",function(image) {
+			done(5052);
+		},failure,{ fileName : "kha/internal/AssetsBuilder.hx", lineNumber : 136, className : "kha._Assets.ImageList", methodName : "cannonMini2Load"});
+	}
+	,cannonMini2Unload: function() {
+		this.cannonMini2.unload();
+		this.cannonMini2 = null;
+	}
+	,cannonPixel: null
+	,cannonPixelName: null
+	,cannonPixelDescription: null
+	,cannonPixelSize: null
+	,cannonPixelLoad: function(done,failure) {
+		kha_Assets.loadImage("cannonPixel",function(image) {
+			done(25807);
+		},failure,{ fileName : "kha/internal/AssetsBuilder.hx", lineNumber : 136, className : "kha._Assets.ImageList", methodName : "cannonPixelLoad"});
+	}
+	,cannonPixelUnload: function() {
+		this.cannonPixel.unload();
+		this.cannonPixel = null;
+	}
 	,gameOver: null
 	,gameOverName: null
 	,gameOverDescription: null
@@ -13616,6 +13671,19 @@ kha__$Assets_ImageList.prototype = {
 	,juliaUnload: function() {
 		this.julia.unload();
 		this.julia = null;
+	}
+	,newCannon: null
+	,newCannonName: null
+	,newCannonDescription: null
+	,newCannonSize: null
+	,newCannonLoad: function(done,failure) {
+		kha_Assets.loadImage("newCannon",function(image) {
+			done(5405);
+		},failure,{ fileName : "kha/internal/AssetsBuilder.hx", lineNumber : 136, className : "kha._Assets.ImageList", methodName : "newCannonLoad"});
+	}
+	,newCannonUnload: function() {
+		this.newCannon.unload();
+		this.newCannon = null;
 	}
 	,names: null
 	,__class__: kha__$Assets_ImageList

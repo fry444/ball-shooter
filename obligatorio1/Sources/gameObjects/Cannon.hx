@@ -24,7 +24,7 @@ class Cannon extends Entity{
     public function new(x:Float, y:Float) {        
 		super();
         display = new RectangleDisplay();
-		display.setColor(0, 0, 255);
+		display.setColor(0, 188, 212);
 		display.scaleX = 20;
 		display.scaleY = 20;
 		display.x = x;

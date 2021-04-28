@@ -283,6 +283,42 @@
 			"original_height": 425
 		},
 		{
+			"name": "cannonMini",
+			"files": [
+				"cannonMini.png"
+			],
+			"file_sizes": [
+				11925
+			],
+			"type": "image",
+			"original_width": 162,
+			"original_height": 162
+		},
+		{
+			"name": "cannonMini2",
+			"files": [
+				"cannonMini2.png"
+			],
+			"file_sizes": [
+				5052
+			],
+			"type": "image",
+			"original_width": 81,
+			"original_height": 81
+		},
+		{
+			"name": "cannonPixel",
+			"files": [
+				"cannonPixel.png"
+			],
+			"file_sizes": [
+				25807
+			],
+			"type": "image",
+			"original_width": 324,
+			"original_height": 324
+		},
+		{
 			"name": "filmGrain_frag",
 			"files": [
 				"filmGrain.frag.essl",
@@ -875,6 +911,18 @@
 				}
 			],
 			"types": []
+		},
+		{
+			"name": "newCannon",
+			"files": [
+				"newCannon.png"
+			],
+			"file_sizes": [
+				5405
+			],
+			"type": "image",
+			"original_width": 100,
+			"original_height": 100
 		},
 		{
 			"name": "outline_frag",
