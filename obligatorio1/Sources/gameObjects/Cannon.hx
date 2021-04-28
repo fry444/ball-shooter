@@ -17,7 +17,7 @@ class Cannon extends Entity{
     public var collision: CollisionBox;
     public var bulletsCollision: CollisionGroup;
 	var facingDir:FastVector2=new FastVector2(0,-1);
-    var speed:Float = 300;
+    var speed:Float = 350;
 	var screenWidth = Screen.getWidth();
 
     public function new(x:Float, y:Float) {        

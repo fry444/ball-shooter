@@ -11836,11 +11836,11 @@ com_soundLib_SoundManager.unMuteMusic = function() {
 com_soundLib_SoundManager.reset = function() {
 	com_soundLib_SoundManager.map = new haxe_ds_StringMap();
 };
-var gameObjects_Ball = function(x,y,type,direction,collisionGroup) {
+var gameObjects_Ball = function(x,y,type,direction,newVelocity,collisionGroup) {
 	this.screenHeight = kha_System.windowHeight();
 	this.screenWidth = kha_System.windowWidth();
 	com_framework_utils_Entity.call(this);
-	this.velocity = new kha_math_FastVector2(500,500);
+	this.velocity = newVelocity;
 	this.velocity.x *= direction;
 	this.ballSprite = new com_gEngine_display_Sprite("ball");
 	this.ballSprite.x = x;
@@ -11904,6 +11904,9 @@ gameObjects_Ball.prototype = $extend(com_framework_utils_Entity.prototype,{
 	,getY: function() {
 		return this.collision.y;
 	}
+	,getVelocity: function() {
+		return this.velocity;
+	}
 	,__class__: gameObjects_Ball
 });
 var gameObjects_Bullet = function(x,y,dir,collisionGroup) {
@@ -11959,7 +11962,7 @@ gameObjects_Bullet.prototype = $extend(com_framework_utils_Entity.prototype,{
 });
 var gameObjects_Cannon = function(x,y) {
 	this.screenWidth = kha_System.windowWidth();
-	this.speed = 300;
+	this.speed = 350;
 	this.facingDir = new kha_math_FastVector2(0,-1);
 	com_framework_utils_Entity.call(this);
 	this.display = new com_gEngine_helpers_RectangleDisplay();
@@ -43606,14 +43609,14 @@ states_BallShooter.prototype = $extend(com_framework_utils_State.prototype,{
 	,update: function(dt) {
 		if(com_framework_utils_Input.i.isKeyCodePressed(66)) {
 			var randomX = Math.round(kha_math_Random.getFloatIn(20,1260));
-			this.addBall(randomX,100,3,1);
+			this.addBall(randomX,100,3,1,new kha_math_FastVector2(400,400));
 		}
 		com_collision_platformer_CollisionEngine.overlap(this.cannon.collision,this.ballsCollision,$bind(this,this.cannonVsBall));
 		com_collision_platformer_CollisionEngine.overlap(this.cannon.bulletsCollision,this.ballsCollision,$bind(this,this.bulletVsBall));
 		com_framework_utils_State.prototype.update.call(this,dt);
 	}
-	,addBall: function(x,y,ballType,ballDirection) {
-		var ball = new gameObjects_Ball(x,y,ballType,ballDirection,this.ballsCollision);
+	,addBall: function(x,y,ballType,ballDirection,ballVelocity) {
+		var ball = new gameObjects_Ball(x,y,ballType,ballDirection,ballVelocity,this.ballsCollision);
 		this.addChild(ball);
 	}
 	,cannonVsBall: function(cannonCollision,ballCollision) {
@@ -43623,17 +43626,17 @@ states_BallShooter.prototype = $extend(com_framework_utils_State.prototype,{
 		}
 	}
 	,bulletVsBall: function(bulletCollision,ballCollision) {
+		var bullet = bulletCollision.userData;
+		bullet.die();
 		var ball = ballCollision.userData;
 		var newBallType = ball.getType() - 1;
 		if(newBallType > 0) {
-			this.addBall(ball.getX(),ball.getY(),newBallType,-1);
-			this.addBall(ball.getX(),ball.getY(),newBallType,1);
+			this.addBall(ball.getX(),ball.getY(),newBallType,-1,new kha_math_FastVector2(ball.getVelocity().x,ball.getVelocity().y));
+			this.addBall(ball.getX(),ball.getY(),newBallType,1,new kha_math_FastVector2(ball.getVelocity().x,ball.getVelocity().y));
 		} else {
 			this.updateKillsValue();
 		}
 		ball.die();
-		var bullet = bulletCollision.userData;
-		bullet.die();
 	}
 	,draw: function(framebuffer) {
 		com_framework_utils_State.prototype.draw.call(this,framebuffer);

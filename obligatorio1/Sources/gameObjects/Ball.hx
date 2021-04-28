@@ -21,9 +21,9 @@ class Ball extends Entity{
     var ballType:Int;
     var sizeMultiplier:Float;
     
-    public function new(x:Float, y:Float, type:Int, direction:Float, collisionGroup:CollisionGroup) {
+    public function new(x:Float, y:Float, type:Int, direction:Float, newVelocity:FastVector2, collisionGroup:CollisionGroup) {
         super();        
-        velocity = new FastVector2(500,500);
+        velocity = newVelocity; 
         velocity.x*=direction;
         ballSprite=new Sprite("ball");
         ballSprite.x=x;
@@ -81,6 +81,10 @@ class Ball extends Entity{
 
     public function getY(){
         return collision.y;
+    }
+
+    public function getVelocity(){
+        return velocity;
     }
     
 }

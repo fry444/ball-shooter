@@ -5,6 +5,7 @@ import com.loading.basicResources.FontLoader;
 import com.loading.basicResources.JoinAtlas;
 import com.framework.utils.Random;
 import kha.Canvas;
+import kha.math.FastVector2;
 import js.html.Console;
 import gameObjects.Bullet;
 import com.collision.platformer.ICollider;
@@ -93,15 +94,15 @@ class BallShooter extends State{
     override function update(dt:Float) {
         if(Input.i.isKeyCodePressed(KeyCode.B)){
             var randomX = Math.round(Random.getRandomIn(20,1260));
-            addBall(randomX,100,3,1);
+            addBall(randomX,100,3,1, new FastVector2(400,400));
         }
         CollisionEngine.overlap(cannon.collision, ballsCollision, cannonVsBall);
         CollisionEngine.overlap(cannon.bulletsCollision, ballsCollision, bulletVsBall);
         super.update(dt);
     }
 
-    function addBall(x:Float, y:Float, ballType:Int, ballDirection:Float){
-        var ball = new Ball(x,y,ballType,ballDirection,ballsCollision);
+    function addBall(x:Float, y:Float, ballType:Int, ballDirection:Float, ballVelocity:FastVector2){
+        var ball = new Ball(x,y,ballType,ballDirection,ballVelocity, ballsCollision);
         addChild(ball);
     }
 
@@ -113,17 +114,17 @@ class BallShooter extends State{
     }
 
     function bulletVsBall(bulletCollision: ICollider, ballCollision:ICollider){
+        var bullet:Bullet = cast bulletCollision.userData;
+		bullet.die();
         var ball:Ball = cast ballCollision.userData;
         var newBallType = ball.getType() -1;   
         if(newBallType>0){
-            addBall(ball.getX(),ball.getY(),newBallType, -1);
-            addBall(ball.getX(),ball.getY(),newBallType, 1);
+            addBall(ball.getX(),ball.getY(),newBallType, -1,new FastVector2(ball.getVelocity().x,ball.getVelocity().y));
+            addBall(ball.getX(),ball.getY(),newBallType, 1,new FastVector2(ball.getVelocity().x,ball.getVelocity().y));
         }else{
             updateKillsValue();
         }     
-        ball.die();        
-        var bullet:Bullet = cast bulletCollision.userData;
-		bullet.die();
+        ball.die();             
     }
 
     #if DEBUGDRAW
