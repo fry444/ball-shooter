@@ -5,6 +5,7 @@ import com.framework.utils.Input;
 import kha.input.KeyCode;
 import com.collision.platformer.CollisionGroup;
 import com.gEngine.display.Layer;
+import com.gEngine.helpers.Screen;
 import kha.math.FastVector2;
 import com.collision.platformer.CollisionBox;
 import com.gEngine.helpers.RectangleDisplay;
@@ -17,6 +18,7 @@ class Cannon extends Entity{
     public var bulletsCollision: CollisionGroup;
 	var facingDir:FastVector2=new FastVector2(0,-1);
     var speed:Float = 300;
+	var screenWidth = Screen.getWidth();
 
     public function new(x:Float, y:Float) {        
 		super();
@@ -39,7 +41,7 @@ class Cannon extends Entity{
 
     override function update(dt:Float) {
 		updatePlayerMovement();
-		if(Input.i.isKeyCodeDown(KeyCode.Space)){
+		if(Input.i.isKeyCodePressed(KeyCode.Space)){
 			shoot();
 		}
         collision.update(dt);
@@ -60,6 +62,12 @@ class Cannon extends Entity{
 			collision.velocityX = finalVelocity.x;
 			collision.velocityY = finalVelocity.y;
 		} 
+		if(collision.x<0){
+			collision.x=0;
+		} 
+		if(collision.x+20>screenWidth){
+			collision.x=screenWidth-20;
+		}
 	}
 
 	function shoot(){

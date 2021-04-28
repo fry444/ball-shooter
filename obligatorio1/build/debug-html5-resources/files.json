@@ -259,6 +259,18 @@
 			"types": []
 		},
 		{
+			"name": "cannon",
+			"files": [
+				"cannon.png"
+			],
+			"file_sizes": [
+				36798
+			],
+			"type": "image",
+			"original_width": 459,
+			"original_height": 459
+		},
+		{
 			"name": "filmGrain_frag",
 			"files": [
 				"filmGrain.frag.essl",

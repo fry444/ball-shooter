@@ -11958,6 +11958,7 @@ gameObjects_Bullet.prototype = $extend(com_framework_utils_Entity.prototype,{
 	,__class__: gameObjects_Bullet
 });
 var gameObjects_Cannon = function(x,y) {
+	this.screenWidth = kha_System.windowWidth();
 	this.speed = 300;
 	this.facingDir = new kha_math_FastVector2(0,-1);
 	com_framework_utils_Entity.call(this);
@@ -11986,9 +11987,10 @@ gameObjects_Cannon.prototype = $extend(com_framework_utils_Entity.prototype,{
 	,bulletsCollision: null
 	,facingDir: null
 	,speed: null
+	,screenWidth: null
 	,update: function(dt) {
 		this.updatePlayerMovement();
-		if(com_framework_utils_Input.i.isKeyCodeDown(32)) {
+		if(com_framework_utils_Input.i.isKeyCodePressed(32)) {
 			this.shoot();
 		}
 		this.collision.update(dt);
@@ -12033,6 +12035,12 @@ gameObjects_Cannon.prototype = $extend(com_framework_utils_Entity.prototype,{
 			var finalVelocity_y = y;
 			this.collision.velocityX = finalVelocity_x;
 			this.collision.velocityY = finalVelocity_y;
+		}
+		if(this.collision.x < 0) {
+			this.collision.x = 0;
+		}
+		if(this.collision.x + 20 > this.screenWidth) {
+			this.collision.x = this.screenWidth - 20;
 		}
 	}
 	,shoot: function() {
@@ -13706,7 +13714,7 @@ js_lib__$ArrayBuffer_ArrayBufferCompat.sliceImpl = function(begin,end) {
 	return resultArray.buffer;
 };
 var kha__$Assets_ImageList = function() {
-	this.names = ["ball","gameOver","grass","jason","julia"];
+	this.names = ["ball","cannon","gameOver","grass","jason","julia"];
 	this.juliaSize = 14731;
 	this.juliaDescription = { name : "julia", original_height : 167, file_sizes : [14731], original_width : 237, files : ["julia.png"], type : "image"};
 	this.juliaName = "julia";
@@ -13723,6 +13731,10 @@ var kha__$Assets_ImageList = function() {
 	this.gameOverDescription = { name : "gameOver", original_height : 244, file_sizes : [17088], original_width : 231, files : ["gameOver.png"], type : "image"};
 	this.gameOverName = "gameOver";
 	this.gameOver = null;
+	this.cannonSize = 36798;
+	this.cannonDescription = { name : "cannon", original_height : 459, file_sizes : [36798], original_width : 459, files : ["cannon.png"], type : "image"};
+	this.cannonName = "cannon";
+	this.cannon = null;
 	this.ballSize = 469;
 	this.ballDescription = { name : "ball", original_height : 40, file_sizes : [469], original_width : 40, files : ["ball.png"], type : "image"};
 	this.ballName = "ball";
@@ -13746,6 +13758,19 @@ kha__$Assets_ImageList.prototype = {
 	,ballUnload: function() {
 		this.ball.unload();
 		this.ball = null;
+	}
+	,cannon: null
+	,cannonName: null
+	,cannonDescription: null
+	,cannonSize: null
+	,cannonLoad: function(done,failure) {
+		kha_Assets.loadImage("cannon",function(image) {
+			done(36798);
+		},failure,{ fileName : "kha/internal/AssetsBuilder.hx", lineNumber : 136, className : "kha._Assets.ImageList", methodName : "cannonLoad"});
+	}
+	,cannonUnload: function() {
+		this.cannon.unload();
+		this.cannon = null;
 	}
 	,gameOver: null
 	,gameOverName: null
